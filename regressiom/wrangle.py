@@ -19,11 +19,14 @@ import env
 from scipy import stats
 from math import sqrt
 
+# get URL Fx
 def get_db_url(db):
     return f'mysql+pymysql://{env.user}:{env.password}@{env.host}/{db}'
 
+# set DB name to open
 url = get_db_url('telco_churn')
 
+# define SQL Query
 query = '''
 SELECT customer_id, monthly_charges, tenure, total_charges
 FROM customers
