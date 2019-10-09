@@ -1,12 +1,16 @@
 # wrangle.py  
 # file for all REGRESSION session
 
+# NOTE TO SELF
+    # RUN USING THIS LINE FROM COMMAND LINE
+    # python ~/codeup-data-science/ds-methodologies-exercises/regressiom/wrangle.py
+
 
 import warnings
 warnings.filterwarnings("ignore")
 
 import pandas as pd
-%matplotlib inline
+# %matplotlib inline # only for JNB, not for native python
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
