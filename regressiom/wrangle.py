@@ -4,6 +4,7 @@
 # NOTE TO SELF
     # RUN USING THIS LINE FROM COMMAND LINE
     # python ~/codeup-data-science/ds-methodologies-exercises/regressiom/wrangle.py
+    # or ../wrangle.py
 
 
 import warnings
