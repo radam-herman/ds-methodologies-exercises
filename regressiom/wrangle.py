@@ -6,6 +6,10 @@
     # python ~/codeup-data-science/ds-methodologies-exercises/regressiom/wrangle.py
     # or ../wrangle.py
 
+    # or 
+    # import wrangle
+    # 
+
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -25,36 +29,43 @@ def get_db_url(db):
     return f'mysql+pymysql://{env.user}:{env.password}@{env.host}/{db}'
 
 # set DB name to open
-url = get_db_url('telco_churn')
 
-# define SQL Query
-query = '''
-SELECT customer_id, monthly_charges, tenure, total_charges
-FROM customers
-WHERE contract_type_id = 3;
-'''
 
-telco_churn = pd.read_sql(query, url)
+def wrangle_telco():
 
-telco_churn.head()
+    url = get_db_url('telco_churn')
 
-print(telco_churn.dtypes)
+    # define SQL Query
+    query = '''
+    SELECT customer_id, monthly_charges, tenure, total_charges
+    FROM customers
+    WHERE contract_type_id = 3;
+    '''
 
-telco_churn.total_charges.replace(r'^\s*$', np.nan, regex=True, inplace=True)
+    telco_churn = pd.read_sql(query, url)
 
-print(telco_churn.info())
+    telco_churn.head()
 
-telco_churn['total_charges'] = pd.to_numeric(telco_churn['total_charges'], errors='coerce')
+    print(telco_churn.dtypes)
 
-telco_churn.info()
+    telco_churn.total_charges.replace(r'^\s*$', np.nan, regex=True, inplace=True)
 
- # change of variable - incase a step goes wrong - original variable is still intact
-print("+" * 20)
-print("NOTE: variable change to 'telco_churn2")
-print("+" * 20)
-telco_churn2 = telco_churn.dropna()
+    print(telco_churn.info())
 
-telco_churn2.info()
+    telco_churn['total_charges'] = pd.to_numeric(telco_churn['total_charges'], errors='coerce')
+
+    telco_churn.info()
+
+    # change of variable - incase a step goes wrong - original variable is still intact
+    print("+" * 20)
+    print("NOTE: variable change to 'telco_churn2")
+    print("+" * 20)
+    telco_churn2 = telco_churn.dropna()
+
+    telco_churn2.info()
+
+    return telco_churn2
+
 
 
 
