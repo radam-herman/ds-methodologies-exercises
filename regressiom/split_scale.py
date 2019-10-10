@@ -31,13 +31,45 @@ from sklearn.model_selection import train_test_split
 
 df = wrangle.wrangle_telco()
 
-print(" DF ")
-df.head()
+print("\n "* 2)
+print("+" * 20)
+print("++++++++++ DF ++++++++++++")
+print("\n "* 1)
+print(df.head())
+
+X = df_X = df.drop(columns=['customer_id', 'total_charges'])
+
+y = df_y = df.total_charges
+
+print("\n "* 1)
+print(" ======= X header info =======")
+print(X.head())
+
+print("\n "* 1)
+print(" ======= y header info =======")
+print(y.head())
 
 
+X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = .75, random_state=42)
 
-X_train, X_test, y_train, y_test = train_test_split(wrangle, y, train_size = .75, random_state=42)
-train, test = train_test_split(wrangle, train_size = .75, random_state = 123)
+print("\n "* 1)
+print(" ======= X_train header info =======")
+print(X_train.head())
+
+print("\n "* 1)
+print(" ======= X_test header info =======")
+print(X_test.head())
+
+print("\n "* 1)
+print(" ======= X_test header info =======")
+print(y_train.head())
+
+print("\n "* 1)
+print(" ======= X_test header info =======")
+print(y_test.head())
+
+#X_train, X_test, y_train, y_test = train_test_split(wrangle, y, train_size = .75, random_state=42)
+#train, test = train_test_split(wrangle, train_size = .75, random_state = 123)
 
 
 

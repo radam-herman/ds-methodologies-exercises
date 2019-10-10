@@ -33,6 +33,9 @@ def get_db_url(db):
 
 def wrangle_telco():
 
+    print("\n "* 4)
+    print("BEGINNING OF WRANGLE OUTPUTS")
+
     url = get_db_url('telco_churn')
 
     # define SQL Query
@@ -45,11 +48,13 @@ def wrangle_telco():
     telco_churn = pd.read_sql(query, url)
 
     telco_churn.head()
-
+    
+    print("\n "* 2)
     print(telco_churn.dtypes)
 
     telco_churn.total_charges.replace(r'^\s*$', np.nan, regex=True, inplace=True)
 
+    print("\n "* 2)
     print(telco_churn.info())
 
     telco_churn['total_charges'] = pd.to_numeric(telco_churn['total_charges'], errors='coerce')
@@ -57,12 +62,16 @@ def wrangle_telco():
     telco_churn.info()
 
     # change of variable - incase a step goes wrong - original variable is still intact
+    print("\n "* 2)
     print("+" * 20)
     print("NOTE: variable change to 'telco_churn2")
     print("+" * 20)
     telco_churn2 = telco_churn.dropna()
 
     telco_churn2.info()
+    print("\n "* 2)
+    print("END OF WRANGLE OUTPUT - RETURNING 'telco_churn2")
+    print("\n "* 2)
 
     return telco_churn2
 
