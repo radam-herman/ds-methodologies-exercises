@@ -24,10 +24,13 @@
 
     # Create TRAIN & TEST Objects
 
+
 import pandas as pd
+from sklearn.preprocessing import StandardScaler, PowerTransformer, MinMaxScaler, RobustScaler, QuantileTransformer
+from sklearn.model_selection import train_test_split
 import numpy as np
 import wrangle
-from sklearn.model_selection import train_test_split
+import env
 
 # df = wrangle.wrangle_telco()
 
@@ -82,13 +85,13 @@ def standard_scaler(X_train, X_test, y_train, y_test):
             .fit(y_train)
 
 #   # STAGE - Transform Data
-    scaled_X_train = pd.DataFrame(scaler.transform(X_train),\
+    scaled_X_train = pd.DataFrame(scaler_X.transform(X_train),\
         columns=X_train.columns.values).set_index([X_train.index.values])
-    scaled_y_train = pd.DataFrame(scaler.transform(y_train),\
+    scaled_y_train = pd.DataFrame(scaler_y.transform(y_train),\
         columns=y_train.columns.values).set_index([y_train.index.values])
-    scaled_X_test = pd.DataFrame(scaler.transform(X_test),\
+    scaled_X_test = pd.DataFrame(scaler_X).transform(X_test),\
         columns=X_test.columns.values).set_index([X_test.index.values])
-    scaled_y_test = pd.DataFrame(scaler.transform(y_test),\
+    scaled_y_test = pd.DataFrame(scaler_y.transform(y_test),\
         columns=y_test.columns.values).set_index([y_test.index.values])
 
     return scaler_X, scaler_y, scaled_X_train, scaled_y_train, scaled_X_test, scaled_y_test
@@ -100,17 +103,17 @@ def standard_scaler(X_train, X_test, y_train, y_test):
 #         # scaler.inverse_transform
 
 def scale_inverse(scaler_X, scaler_y, scaled_X_train, scaled_y_train, scaled_X_test, scaled_y_test):
-        unscaled_X_train = pd.DataFrame(scaler.inverse_transform(X_train),\
-        columns=X_train.columns.values).set_index([X_train.index.values])
+    unscaled_X_train = pd.DataFrame(scaler.inverse_transform(X_train),\
+    columns=X_train.columns.values).set_index([X_train.index.values])
 
-        unscaled_y_train = pd.DataFrame(scaler.inverse_transform(y_train),\
-        columns=y_train.columns.values).set_index([y_train.index.values])
+    unscaled_y_train = pd.DataFrame(scaler.inverse_transform(y_train),\
+    columns=y_train.columns.values).set_index([y_train.index.values])
 
-        unscaled_X_test = pd.DataFrame(scaler.inverse_transform(X_test),\
-        columns=X_test.columns.values).set_index([X_test.index.values])
+    unscaled_X_test = pd.DataFrame(scaler.inverse_transform(X_test),\
+    columns=X_test.columns.values).set_index([X_test.index.values])
 
-        unscaled_y_test = pd.DataFrame(scaler.inverse_transform(y_test),\
-        columns=y_test.columns.values).set_index([y_test.index.values])
+    unscaled_y_test = pd.DataFrame(scaler.inverse_transform(y_test),\
+    columns=y_test.columns.values).set_index([y_test.index.values])
 
     return scaler, unscaled_X_train, unscaled_y_train, unscaled_X_test, unscaled_y_test
 
@@ -120,7 +123,7 @@ def scale_inverse(scaler_X, scaler_y, scaled_X_train, scaled_y_train, scaled_X_t
 #     # It smooths out unusual distributions, and it spreads out 
 #     # the most frequent values and reduces the impact of (marginal) outliers
 
-
+split_scale.scale_inverse(split_scale.split_my_data(X,y, ))
 
 # # 5 gaussian_scaler()
 #  # This uses either the Box-Cox or Yeo-Johnson method 
