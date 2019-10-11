@@ -32,20 +32,11 @@ import numpy as np
 import wrangle
 import env
 
-# df = wrangle.wrangle_telco()
 
-    # call this function fm ipython terminal,
-        # first provide X and y variables
-        # NOTE: pct_train the last varialbe is not provided, there is a default
-        # simply provide alternate train set size if desired
-        # example:
-    # X = df_X = df.drop(columns=['customer_id', 'total_charges'])
-    # y = df_y = df.total_charges
-    # split_scale.split_my_data(X,y, )
 
 def split_my_data(X, y, pct_train = .75):
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, pct_train, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=pct_train, random_state=42)
 
     # print("\n "* 1)
     # print(" ======= X_ train and test shapes =======")
@@ -87,10 +78,13 @@ def standard_scaler(X_train, X_test, y_train, y_test):
 #   # STAGE - Transform Data
     scaled_X_train = pd.DataFrame(scaler_X.transform(X_train),\
         columns=X_train.columns.values).set_index([X_train.index.values])
+
     scaled_y_train = pd.DataFrame(scaler_y.transform(y_train),\
         columns=y_train.columns.values).set_index([y_train.index.values])
-    scaled_X_test = pd.DataFrame(scaler_X).transform(X_test),\
+
+    scaled_X_test = pd.DataFrame(scaler_X.transform(X_test),\
         columns=X_test.columns.values).set_index([X_test.index.values])
+
     scaled_y_test = pd.DataFrame(scaler_y.transform(y_test),\
         columns=y_test.columns.values).set_index([y_test.index.values])
 
@@ -123,7 +117,7 @@ def scale_inverse(scaler_X, scaler_y, scaled_X_train, scaled_y_train, scaled_X_t
 #     # It smooths out unusual distributions, and it spreads out 
 #     # the most frequent values and reduces the impact of (marginal) outliers
 
-split_scale.scale_inverse(split_scale.split_my_data(X,y, ))
+# split_scale.scale_inverse(split_scale.split_my_data(X,y, ))
 
 # # 5 gaussian_scaler()
 #  # This uses either the Box-Cox or Yeo-Johnson method 
@@ -141,5 +135,10 @@ split_scale.scale_inverse(split_scale.split_my_data(X,y, ))
 #     # NOTE - With a lot of outliers, scaling using the mean and 
 #     #        variance is not going to work very well
 
-
+df = wrangle.wrangle_telco()
+X = df_X = df.drop(columns=['customer_id', 'total_charges'])
+y = df_y = df.total_charges
+X_train, X_test, y_train, y_test = split_my_data(X, y)
+#result = standard_scaler(X_train, X_test, y_train, y_test)
+#print(result)
 
