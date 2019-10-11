@@ -18,8 +18,9 @@
 #  X_train, X_test, y_train, y_test
 
 
-
+'''
 # 1 - split_my_data(X, y, train_pct)
+'''
 
     # Create TRAIN & TEST Objects
 
@@ -30,21 +31,16 @@ from sklearn.model_selection import train_test_split
 
 # df = wrangle.wrangle_telco()
 
-# X = df_X = df.drop(columns=['customer_id', 'total_charges'])
-# y = df_y = df.total_charges
-
-
     # call this function fm ipython terminal,
         # first provide X and y variables
-    # X = df_X = df.drop(columns=['customer_id', 'total_charges'])
-    # y = df_y = df.total_charges
         # NOTE: pct_train the last varialbe is not provided, there is a default
         # simply provide alternate train set size if desired
         # example:
+    # X = df_X = df.drop(columns=['customer_id', 'total_charges'])
+    # y = df_y = df.total_charges
     # split_scale.split_my_data(X,y, )
 
 def split_my_data(X, y, pct_train = .75):
-#def split_my_data():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, pct_train, random_state=42)
 
@@ -59,92 +55,64 @@ def split_my_data(X, y, pct_train = .75):
     return X_train, X_test, y_train, y_test
 
 
-#X_train, X_test, y_train, y_test = train_test_split(wrangle, y, train_size = .75, random_state=42)
-#train, test = train_test_split(wrangle, train_size = .75, random_state = 123)
-
-
-
-# 2 standard_scaler() 
+'''
+# 2 standard_scaler()
+'''
 # Scale to Standard Normal Distribution (mean=0, stdev=1)
 
     # STAGE - Create Object and Fit to Data
+
+    # call this function fm ipython terminal,
+        # first provide X_ test/train and y test/train variables:
+        # X_train, X_test, y_train, y_test
+
     
+def standard_scaler(X_train, X_test, y_train, y_test):
 
-# from sklearn.preprocessing import StandardScaler, QuantileTransformer, PowerTransformer, RobustScaler, MinMaxScaler
-# import math
+    from sklearn.preprocessing import StandardScaler, QuantileTransformer, PowerTransformer, RobustScaler, MinMaxScaler
+    import math
 
-# # CREATING SCALERS -
-#     # converting all to dataframes
-# #X_train_df = pd.DataFrame(X_train)
-# #X_test_df = pd.DataFrame(X_test)
-#    # y is just a series and gets interpreted only as a series and not a DF as is needed
-# y_train_df = pd.DataFrame(y_train)
-# y_test_df = pd.DataFrame(y_test)
+    # # CREATING SCALERS -
+    # only one IFF - only using a train/test setup
+        # create SCALER X and SCALER y IFF using deeper (test/train = Xtt/ytt)
+    scaler_X = StandardScaler(copy=True, with_mean=True, with_std=True)\
+            .fit(X_train)
 
-# # X_train scaler
-# scaler_X_train = StandardScaler(copy=True, with_mean=True, with_std=True)\
-#     .fit(X_train[['monthly_charges','tenure']])
-
-# print("X_train")
-# print("\n "* 1)
-# print("Mean:") 
-# print(scaler_X_train.mean_)
-# print("Standard Deviation:")
-# print([math.sqrt(i) for i in scaler_X_train.var_])
-
-# # X_test scaler
-# scaler_X_test = StandardScaler(copy=True, with_mean=True, with_std=True)\
-#     .fit(X_test[['monthly_charges','tenure']])
-
-# print("X_test")
-
-# print("\n "* 1)
-# print("Mean:") 
-# print(scaler_X_test.mean_)
-# print("Standard Deviation:")
-# print([math.sqrt(i) for i in scaler_X_test.var_])
-
-# # y_train scaler
-# scaler_y_train = StandardScaler(copy=True, with_mean=True, with_std=True)\
-#     .fit(y_train_df)
-
-# print("y_train")
-
-# print("\n "* 1)
-# print("Mean:") 
-# print(scaler_y_train.mean_)
-# print("Standard Deviation:")
-# print([math.sqrt(i) for i in scaler_y_train.var_])
-
-# # y_test scaler
-# scaler_y_test = StandardScaler(copy=True, with_mean=True, with_std=True)\
-#     .fit(y_test_df)
-
-# print("y_test")
-
-# print("\n "* 1)
-# print("Mean:") 
-# print(scaler_y_test.mean_)
-# print("Standard Deviation:")
-# print([math.sqrt(i) for i in scaler_y_test.var_])
-
+    scaler_y = StandardScaler(copy=True, with_mean=True, with_std=True)\
+            .fit(y_train)
 
 #   # STAGE - Transform Data
+    scaled_X_train = pd.DataFrame(scaler.transform(X_train),\
+        columns=X_train.columns.values).set_index([X_train.index.values])
+    scaled_y_train = pd.DataFrame(scaler.transform(y_train),\
+        columns=y_train.columns.values).set_index([y_train.index.values])
+    scaled_X_test = pd.DataFrame(scaler.transform(X_test),\
+        columns=X_test.columns.values).set_index([X_test.index.values])
+    scaled_y_test = pd.DataFrame(scaler.transform(y_test),\
+        columns=y_test.columns.values).set_index([y_test.index.values])
 
+    return scaler_X, scaler_y, scaled_X_train, scaled_y_train, scaled_X_test, scaled_y_test
 
-
-
-
-
-
-
-
-
-
+'''
 # # 3 scale_inverse()
+'''
 #         # return the scaled data to it's original values using 
 #         # scaler.inverse_transform
 
+def scale_inverse(scaler_X, scaler_y, scaled_X_train, scaled_y_train, scaled_X_test, scaled_y_test):
+        unscaled_X_train = pd.DataFrame(scaler.inverse_transform(X_train),\
+        columns=X_train.columns.values).set_index([X_train.index.values])
+
+        unscaled_y_train = pd.DataFrame(scaler.inverse_transform(y_train),\
+        columns=y_train.columns.values).set_index([y_train.index.values])
+
+        unscaled_X_test = pd.DataFrame(scaler.inverse_transform(X_test),\
+        columns=X_test.columns.values).set_index([X_test.index.values])
+
+        unscaled_y_test = pd.DataFrame(scaler.inverse_transform(y_test),\
+        columns=y_test.columns.values).set_index([y_test.index.values])
+
+    return scaler, unscaled_X_train, unscaled_y_train, unscaled_X_test, unscaled_y_test
 
 # # 4 uniform_scaler()
 #  # Scale to Uniform Distribution using the a QuantileTransformer
