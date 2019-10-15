@@ -30,7 +30,8 @@ def get_db_url(db):
 
 # set DB name to open
 
-
+   # call this Fx with:
+   # df = wrangle.wrangle_telco() 
 def wrangle_telco():
 
     print("\n "* 4)
@@ -73,6 +74,8 @@ def wrangle_telco():
     print("END OF WRANGLE OUTPUT - RETURNING 'telco_churn2")
     print("\n "* 2)
 
+    # call this Fx with:
+    # df = wrangle.wrangle_telco()
     return telco_churn2
 
 

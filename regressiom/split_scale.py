@@ -22,9 +22,6 @@
 # 1 - split_my_data(X, y, train_pct)
 '''
 
-    # Create TRAIN & TEST Objects
-
-
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, PowerTransformer, MinMaxScaler, RobustScaler, QuantileTransformer
 from sklearn.model_selection import train_test_split
@@ -33,18 +30,9 @@ import wrangle
 import env
 
 
-
 def split_my_data(X, y, pct_train = .75):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=pct_train, random_state=42)
-
-    # print("\n "* 1)
-    # print(" ======= X_ train and test shapes =======")
-    # print(X_train.shape); print(X_test.shape)
-
-    # print("\n "* 1)
-    # print(" ======= y_ train and test shapes =======")
-    # print(y_train.shape); print(y_test.shape)
 
     return X_train, X_test, y_train, y_test
 
@@ -53,12 +41,6 @@ def split_my_data(X, y, pct_train = .75):
 # 2 standard_scaler()
 '''
 # Scale to Standard Normal Distribution (mean=0, stdev=1)
-
-    # STAGE - Create Object and Fit to Data
-
-    # call this function fm ipython terminal,
-        # first provide X_ test/train and y test/train variables:
-        # X_train, X_test, y_train, y_test
 
     
 def standard_scaler(X_train, X_test, y_train, y_test):
