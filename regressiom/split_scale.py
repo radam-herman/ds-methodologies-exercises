@@ -22,17 +22,29 @@
 # 1 - split_my_data(X, y, train_pct)
 '''
 
+import warnings
+warnings.filterwarnings("ignore")
+
 import pandas as pd
-from sklearn.preprocessing import StandardScaler, PowerTransformer, MinMaxScaler, RobustScaler, QuantileTransformer
-from sklearn.model_selection import train_test_split
 import numpy as np
+import math
+
 import wrangle
 import env
 
+from sklearn.preprocessing import StandardScaler, PowerTransformer, MinMaxScaler, RobustScaler, QuantileTransformer
+from sklearn.model_selection import train_test_split
 
-def split_my_data(X, y, pct_train = .75):
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=pct_train, random_state=42)
+def split_my_data(df, train_pct=.75):
+
+    # turn into train, test aka X,y
+    seed = 42
+    #   df[['name', 'math']]
+    X=df[['monthly_charges','tenure']]
+    y=df[['total_charges']]
+    #X, y = train_test_split(df, train_size = train_pct, random_state = seed)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=train_size, random_state=seed)
 
     return X_train, X_test, y_train, y_test
 
