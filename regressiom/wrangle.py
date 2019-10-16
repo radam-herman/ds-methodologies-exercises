@@ -76,7 +76,11 @@ def wrangle_telco():
 
     # call this Fx with:
     # df = wrangle.wrangle_telco()
-    return telco_churn2
+
+    df = telco_churn2
+    # X = df_X = df.drop(columns=['customer_id', 'total_charges'])
+    # y = df_y = df.total_charges
+    return df
 
 
 

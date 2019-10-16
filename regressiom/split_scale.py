@@ -36,13 +36,23 @@ from sklearn.preprocessing import StandardScaler, PowerTransformer, MinMaxScaler
 from sklearn.model_selection import train_test_split
 
 
-def split_my_data(df, train_pct=.75):
+def get_X_y():
+    df = wrangle.wrangle_telco()
+    X = df.drop(columns=['customer_id', 'total_charges'])
+    y = df.total_charges
+    return X, y
+    #X_train, X_test, y_train, y_test = split_my_data(X, y)
+
+
+
+def split_my_data(X, y, train_pct=.75):
 
     # turn into train, test aka X,y
     seed = 42
+    y = pd.DataFrame(y)
     #   df[['name', 'math']]
-    X=df[['monthly_charges','tenure']]
-    y=df[['total_charges']]
+    # X=df[['monthly_charges','tenure']]
+    # y=df[['total_charges']]
     #X, y = train_test_split(df, train_size = train_pct, random_state = seed)
     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=train_size, random_state=seed)
 
@@ -129,10 +139,7 @@ def scale_inverse(scaler_X, scaler_y, scaled_X_train, scaled_y_train, scaled_X_t
 #     # NOTE - With a lot of outliers, scaling using the mean and 
 #     #        variance is not going to work very well
 
-df = wrangle.wrangle_telco()
-X = df_X = df.drop(columns=['customer_id', 'total_charges'])
-y = df_y = df.total_charges
-X_train, X_test, y_train, y_test = split_my_data(X, y)
+
 #result = standard_scaler(X_train, X_test, y_train, y_test)
 #print(result)
-
+'''
