@@ -31,15 +31,13 @@ def wrangle_zillow():
     query = '''
     SELECT calculatedfinishedsquarefeet, bedroomcnt, bathroomcnt, taxvaluedollarcnt
     FROM properties_2017
-    WHERE propertylandusetypeid IN (261, 262, 275, 279)
+    WHERE propertylandusetypeid IN (261, 262, 273, 275, 279)
     '''
 
     zillow_project = pd.read_sql(query, url)
 
 
     # telco_churn.total_charges.replace(r'^\s*$', np.nan, regex=True, inplace=True)
-
-
 
     # call this Fx with:
     # df = wrangle_project.wrangle_zillow()
@@ -48,5 +46,6 @@ def wrangle_zillow():
     # X = df_X = df.drop(columns=['customer_id', 'total_charges'])
     # y = df_y = df.total_charges
     return zdf
+
 
 
