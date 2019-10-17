@@ -28,10 +28,12 @@ def wrangle_zillow():
     url = get_db_url('zillow')
 
     # define SQL Query
+    # initially included pred17.transactiondate to manually examine/verify date ranges
     query = '''
-    SELECT calculatedfinishedsquarefeet, bedroomcnt, bathroomcnt, taxvaluedollarcnt
-    FROM properties_2017
-    WHERE propertylandusetypeid IN (261, 262, 273, 275, 279)
+    SELECT p2017.calculatedfinishedsquarefeet, p2017.bedroomcnt, p2017.bathroomcnt, p2017.taxvaluedollarcnt
+    FROM properties_2017 AS p2017
+    JOIN predictions_2017 as pred17 ON p2017.parcelid = pred17.parcelid
+    WHERE propertylandusetypeid IN (261, 262, 273, 275, 279) AND pred17.transactiondate > '2017-04-30' AND pred17.transactiondate < '2017-07-01'
     '''
 
     zillow_project = pd.read_sql(query, url)
@@ -47,5 +49,10 @@ def wrangle_zillow():
     # y = df_y = df.total_charges
     return zdf
 
+def mvp_sort_X_y(zdf):
+    mvp_X = zdf[['calculatedfinishedsquarefeet','bedroomcnt', 'bathroomcnt']]
+    mvp_y = zdf[['taxvaluedollarcnt']]
+
+    return mvp_X, mvp_y
 
 
