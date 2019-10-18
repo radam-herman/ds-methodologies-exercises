@@ -16,6 +16,7 @@ import env
 from sklearn.model_selection import train_test_split
 from scipy import stats
 from math import sqrt
+from sklearn.preprocessing import StandardScaler, QuantileTransformer, PowerTransformer, RobustScaler, MinMaxScaler
 
 # get URL Fx
 def get_db_url(db):
@@ -66,4 +67,10 @@ def split_data(X, y, train_pct=.75, random_seed=42):
     return X_train, X_test, y_train, y_test
 
 # standard_scale
+def standard_scaler(Xtrain, Xtest):
+    Xscaler = StandardScaler(copy=True, with_mean=True, with_std=True).fit(Xtrain)
+    Xtrain_scaled = pd.DataFrame(Xscaler.transform(Xtrain), columns=Xtrain.columns.values).set_index([Xtrain.index.values])
+    Xtest_scaled = pd.DataFrame(Xscaler.transform(Xtest), columns=Xtest.columns.values).set_index([Xtest.index.values])
+    return Xscaler, Xtrain_scaled, Xtest_scaled
+
 
