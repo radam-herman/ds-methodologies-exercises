@@ -13,10 +13,17 @@ import seaborn as sns
 import numpy as np
 import env
 
+
+
 from sklearn.model_selection import train_test_split
 from scipy import stats
 from math import sqrt
 from sklearn.preprocessing import StandardScaler, QuantileTransformer, PowerTransformer, RobustScaler, MinMaxScaler
+
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score, explained_variance_score
+
+
 
 # get URL Fx
 def get_db_url(db):
@@ -35,7 +42,7 @@ def wrangle_zillow_bl():
     SELECT p2017.calculatedfinishedsquarefeet, p2017.bedroomcnt, p2017.bathroomcnt, p2017.taxvaluedollarcnt
     FROM properties_2017 AS p2017
     JOIN predictions_2017 as pred17 ON p2017.parcelid = pred17.parcelid
-    WHERE propertylandusetypeid IN (261, 262, 273, 275, 279) AND pred17.transactiondate > '2017-04-30' AND pred17.transactiondate < '2017-07-01'
+    WHERE propertylandusetypeid IN (261, 262, 273, 275, 279) AND pred17.transactiondate > '2017-04-30' AND pred17.transactiondate < '2017-07-01' AND p2017.calculatedfinishedsquarefeet > 0 AND p2017.bedroomcnt > 0 AND  p2017.bathroomcnt > 0 AND p2017.taxvaluedollarcnt > 0
     '''
 
     zillow_project = pd.read_sql(query, url)
@@ -73,4 +80,43 @@ def standard_scaler(Xtrain, Xtest):
     Xtest_scaled = pd.DataFrame(Xscaler.transform(Xtest), columns=Xtest.columns.values).set_index([Xtest.index.values])
     return Xscaler, Xtrain_scaled, Xtest_scaled
 
+# Scale Inverse Fx PLACEHOLDER
 
+train_unscaled = pd.DataFrame(scaler.inverse_transform(train_scaled), columns=train_scaled.columns.values).set_index([train.index.values])
+test_unscaled = pd.DataFrame(scaler.inverse_transform(test_scaled), columns=test_scaled.columns.values).set_index([test.index.values])
+train_unscaled.head()
+
+def unscale_transform(scaler, train_scaled, test_scaled):
+    train_unscaled = pd.DataFrame(scaler.inverse_transform(train_scaled), columns=train_scaled.columns.values).set_index([train_scaled.index.values])
+    test_unscaled = pd.DataFrame(scaler.inverse_transform(test_scaled), columns=test_scaled.columns.values).set_index([test_scaled.index.values])
+    return Xscaler, train_unscaled, test_unscaled
+
+# Uniform Scaler Fx PLACEHOLDER
+# Gaussian Scaler Fx PLACEHOLDER
+# Min-Max Scaler Fx PLACEHOLDER
+# Robust Scaler Fx PLACEHOLDER
+
+
+# EXPLORATION
+
+# FEATURE ENGINEERING
+
+# MODELING
+
+
+def modeling_function_lr_bl(X_train,X_test,y_train,y_test):
+    predictions_train=pd.DataFrame({'actual':y_train.taxvaluedollarcnt}).reset_index(drop=True)
+    predictions_test=pd.DataFrame({'actual':y_test.taxvaluedollarcnt}).reset_index(drop=True)
+    #model 1
+    lm1=LinearRegression()
+    lm1.fit(X_train,y_train)
+    lm1_predictions=lm1.predict(X_train)
+    predictions_train['lm1']=lm1_predictions
+
+    #model 2
+    lm2=LinearRegression()
+    lm2.fit(X_test,y_test)
+    lm2_predictions=lm2.predict(X_test)
+    predictions_test['lm2']=lm2_predictions
+    
+    return predictions_train,predictions_test
