@@ -13,6 +13,7 @@ import seaborn as sns
 import numpy as np
 import env
 
+from sklearn.model_selection import train_test_split
 from scipy import stats
 from math import sqrt
 
@@ -20,10 +21,10 @@ from math import sqrt
 def get_db_url(db):
     return f'mysql+pymysql://{env.user}:{env.password}@{env.host}/{db}'
 
-def wrangle_zillow():
+def wrangle_zillow_bl():
 
     print("\n "* 4)
-    print("BEGINNING OF WRANGLE OUTPUTS")
+    print("BEGINNING OF BASELINE WRANGLE OUTPUTS")
 
     url = get_db_url('zillow')
 
@@ -49,10 +50,20 @@ def wrangle_zillow():
     # y = df_y = df.total_charges
     return zdf
 
-def mvp_sort_X_y(zdf):
-    mvp_X = zdf[['calculatedfinishedsquarefeet','bedroomcnt', 'bathroomcnt']]
-    mvp_y = zdf[['taxvaluedollarcnt']]
+def bl_sort_X_y(zdf):
+    bl_X = zdf[['calculatedfinishedsquarefeet','bedroomcnt', 'bathroomcnt']]
+    bl_y = zdf[['taxvaluedollarcnt']]
 
-    return mvp_X, mvp_y
+    return bl_X, bl_y
 
+
+'''
+X_train, X_test, y_train, y_test = train_test_split(
+         X, y, test_size=0.33, random_state=42)
+'''
+def split_data(X, y, train_pct=.75, random_seed=42):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = train_pct, random_state = random_seed)
+    return X_train, X_test, y_train, y_test
+
+# standard_scale
 
