@@ -33,12 +33,12 @@ def get_db_url(db):
 # more inclusive query
   # maybe make a query Fx?
 
-    query = '''
-    SELECT p2017.regionidcounty, p2017.calculatedfinishedsquarefeet, p2017.bedroomcnt, p2017.bathroomcnt, p2017.taxvaluedollarcnt
-    FROM properties_2017 AS p2017
-    JOIN predictions_2017 as pred17 ON p2017.parcelid = pred17.parcelid
-    WHERE propertylandusetypeid IN (261, 262, 273, 275, 279) AND pred17.transactiondate > '2017-04-30' AND pred17.transactiondate < '2017-07-01' AND p2017.calculatedfinishedsquarefeet > 0 AND p2017.bedroomcnt > 0 AND  p2017.bathroomcnt > 0 AND p2017.taxvaluedollarcnt > 0
-    '''
+    # query = '''
+    # SELECT p2017.regionidcounty, p2017.calculatedfinishedsquarefeet, p2017.bedroomcnt, p2017.bathroomcnt, p2017.taxvaluedollarcnt
+    # FROM properties_2017 AS p2017
+    # JOIN predictions_2017 as pred17 ON p2017.parcelid = pred17.parcelid
+    # WHERE propertylandusetypeid IN (261, 262, 273, 275, 279) AND pred17.transactiondate > '2017-04-30' AND pred17.transactiondate < '2017-07-01' AND p2017.calculatedfinishedsquarefeet > 0 AND p2017.bedroomcnt > 0 AND  p2017.bathroomcnt > 0 AND p2017.taxvaluedollarcnt > 0
+    # '''
 
 
 def wrangle_zillow_bl():
@@ -94,14 +94,14 @@ def standard_scaler(Xtrain, Xtest):
 
 # Scale Inverse Fx PLACEHOLDER
 
-train_unscaled = pd.DataFrame(scaler.inverse_transform(train_scaled), columns=train_scaled.columns.values).set_index([train.index.values])
-test_unscaled = pd.DataFrame(scaler.inverse_transform(test_scaled), columns=test_scaled.columns.values).set_index([test.index.values])
-train_unscaled.head()
+# train_unscaled = pd.DataFrame(Xscaler.inverse_transform(Xtrain_scaled), columns=Xtrain_scaled.columns.values).set_index([train.index.values])
+# test_unscaled = pd.DataFrame(Xscaler.inverse_transform(Xtest_scaled), columns=Xtest_scaled.columns.values).set_index([test.index.values])
+# train_unscaled.head()
 
-def unscale_transform(scaler, train_scaled, test_scaled):
-    train_unscaled = pd.DataFrame(scaler.inverse_transform(train_scaled), columns=train_scaled.columns.values).set_index([train_scaled.index.values])
-    test_unscaled = pd.DataFrame(scaler.inverse_transform(test_scaled), columns=test_scaled.columns.values).set_index([test_scaled.index.values])
-    return Xscaler, train_unscaled, test_unscaled
+def unscale_transform(X_scaler, Xtrain_scaled, Xtest_scaled):
+    Xtrain_unscaled = pd.DataFrame(X_scaler.inverse_transform(Xtrain_scaled), columns=Xtrain_scaled.columns.values).set_index([Xtrain_scaled.index.values])
+    Xtest_unscaled = pd.DataFrame(X_scaler.inverse_transform(Xtest_scaled), columns=Xtest_scaled.columns.values).set_index([Xtest_scaled.index.values])
+    return X_unscaler, Xtrain_unscaled, Xtest_unscaled
 
 # Uniform Scaler Fx PLACEHOLDER
 # Gaussian Scaler Fx PLACEHOLDER
